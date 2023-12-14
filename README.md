@@ -16,21 +16,25 @@ pacman -U corplink-rs-4.1-1-x86_64.pkg.tar.zst
 
 ## 手动编译
 
+```bash
+# 依赖环境 go cargo
+yum install go cargo -y
+
+# 依赖库 clang 版本需要大于或等于3.5
+yum install -y llvm llvm-devel clang clang-devel openssl openssl-devel
+```
 
 ```bash
-git clone https://github.com/PinkD/corplink-rs --depth 1
-cd corplink-rs
+# 拉取主体源码
+git clone https://github.com/Holmose/corplink-rs.git --depth 1
+# 编译libwg文件
+cd corplink-rs/libwg
+sh build.sh
+# 编译主体文件
+cd ../
 cargo build --release
 # install corplink-rs to your PATH
 mv target/release/corplink-rs /usr/bin/
-cd ..
-git clone https://github.com/PinkD/wireguard-go --depth 1
-cd wireguard-go
-# you can build with `go build` on windows maunally
-make libwg
-# install wg-corplink to your PATH
-# your can also install it to somewhere else and use wg_binary config to tell corplink-rs where it is
-cp libwg.* ../corplink-rs/libwg/
 ```
 
 # 用法
