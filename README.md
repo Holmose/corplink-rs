@@ -37,6 +37,32 @@ cargo build --release
 mv target/release/corplink-rs /usr/bin/
 ```
 
+# 手动编译clang 3.5
+
+```bash
+cd /tmp/llvm-build/
+wget http://llvm.org/releases/3.5.0/llvm-3.5.0.src.tar.xz --no-check-certificate
+mv llvm-3.5.0.src llvm
+
+cd llvm/tools
+wget http://llvm.org/releases/3.5.0/cfe-3.5.0.src.tar.xz --no-check-certificate
+tar xf cfe-3.5.0.src.tar.xz
+mv cfe-3.5.0.src clang
+
+cd ../projects
+wget http://llvm.org/releases/3.5.0/compiler-rt-3.5.0.src.tar.xz --no-check-certificate
+tar xf compiler-rt-3.5.0.src.tar.xz
+mv compiler-rt-3.5.0.src compiler-rt
+
+cd ..
+yum install -y gcc-c++
+./configure --enable-optimized CC=gcc CXX=g++
+
+make -4
+make install
+ls -s /usr/local/bin/clang /usr/bin/clang
+```
+
 # 用法
 
 > **该程序需要 root 权限来启动 `wg-go` (windows 上需要管理员权限)**
