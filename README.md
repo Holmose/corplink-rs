@@ -20,7 +20,10 @@ pacman -U corplink-rs-4.1-1-x86_64.pkg.tar.zst
 # 依赖环境 go cargo
 yum install go cargo -y
 
-# 依赖库 clang 版本需要大于或等于3.5
+# 依赖库
+yum install centos-release-scl -y
+yum install llvm-toolset-7 -y
+scl enable llvm-toolset-7 bash
 yum install -y llvm llvm-devel clang clang-devel openssl openssl-devel
 ```
 
@@ -35,32 +38,6 @@ cd ../
 cargo build --release
 # install corplink-rs to your PATH
 mv target/release/corplink-rs /usr/bin/
-```
-
-# 手动编译clang 3.5
-
-```bash
-cd /tmp/llvm-build/
-wget http://llvm.org/releases/3.5.0/llvm-3.5.0.src.tar.xz --no-check-certificate
-mv llvm-3.5.0.src llvm
-
-cd llvm/tools
-wget http://llvm.org/releases/3.5.0/cfe-3.5.0.src.tar.xz --no-check-certificate
-tar xf cfe-3.5.0.src.tar.xz
-mv cfe-3.5.0.src clang
-
-cd ../projects
-wget http://llvm.org/releases/3.5.0/compiler-rt-3.5.0.src.tar.xz --no-check-certificate
-tar xf compiler-rt-3.5.0.src.tar.xz
-mv compiler-rt-3.5.0.src compiler-rt
-
-cd ..
-yum install -y gcc-c++
-./configure --enable-optimized CC=gcc CXX=g++
-
-make -4
-make install
-ls -s /usr/local/bin/clang /usr/bin/clang
 ```
 
 # 用法
